@@ -3,15 +3,17 @@ const request = require('request');
 const path = require('path');
 const cors = require('cors');
 
-const itunesUrl = "https://itunes.apple.com";
-
 const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../public')));
 
 const router = express.Router();
+const itunesUrl = "https://itunes.apple.com";
 
-router.get('/podcasts', (req, res) => {
+router.get('/', (_req, res) => {
+    res.json({data: "App is running"});
+})
+
+router.get('/podcasts', (_req, res) => {
     const url = `${itunesUrl}/us/rss/toppodcasts/limit=100/genre=1310/json`;
     request(url).pipe(res);
 })
@@ -29,7 +31,7 @@ router.get('/episodes', (req, res) => {
     })
 })
 
-router.get('*', (req, res) => {
+router.get('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
