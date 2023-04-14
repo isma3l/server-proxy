@@ -4,22 +4,16 @@ This very basic server allows requests to other servers without CORS problems.
 
 ## Installation
 
-```bash
 yarn 
-```
 
 ## Usage Local
 
-```bash
 yarn start
-```
 
 By default the server handles requests on port 3005.
 Send a query with the server URL in the url parameter, like this:
 
-```bash
 http://localhost:3005/api?url=https://itunes.apple.com/us/rss/toppodcasts/limit=100/genre=1310/json
-```
 
 * It is configured to be deployed in vercel
 
