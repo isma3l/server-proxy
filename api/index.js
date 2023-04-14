@@ -1,40 +1,48 @@
-const express = require('express');
-const request = require('request');
-const path = require('path');
-const cors = require('cors');
+import express from 'express';
+import path from 'path';
+import axios from 'axios';
+import Middlewares from "../middlewares/index.js";
 
+const handler = (req, res) => {
+  async function fecthUrl(url) {
+    try {
+      const response = await axios.get(url);
+      const contentType = response.headers.get("content-type");
+      res.setHeader("content-type", contentType)
+      res.status = response.status;
+
+      if (contentType.includes("json")) {
+        res.json(response.data);
+      } else {
+        res.send(response.data);
+      }
+
+    } catch (error) {
+      res.status = 500;
+      res.json({ type: 'error', message: error.message });
+    }
+  }
+  
+  if (req.query.url) {
+    fecthUrl(req.query.url);
+  } else {
+    res.send("missing url parameter");
+  }
+}
+
+const port = process.env.PORT || 3005;
 const app = express();
-app.use(cors());
+Middlewares(app);
 
-const router = express.Router();
-const itunesUrl = "https://itunes.apple.com";
+app.use("/api", (req, res) => {
+  handler(req, res);
+});
 
-router.get('/', (_req, res) => {
-    res.json({data: "App is running"});
-})
 
-router.get('/podcasts', (_req, res) => {
-    const url = `${itunesUrl}/us/rss/toppodcasts/limit=100/genre=1310/json`;
-    request(url).pipe(res);
-})
-
-router.get('/podcasts/:id', (req, res) => {
-    const podcastId = req.params.id;
-    const url = `${itunesUrl}/lookup?id=${podcastId}`;
-    request(url).pipe(res);
-})
-
-router.get('/episodes', (req, res) => {
-    const feedurl = req.query.feedurl;
-    request(feedurl).pipe(res).on("error", (err) => {
-        res.status(500).send("Error connecting");
-    })
-})
-
-router.get('*', (_req, res) => {
+app.use('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
 })
 
-app.use("/api", router);
+app.listen(port);
 
-module.exports = app;
+export default app;
