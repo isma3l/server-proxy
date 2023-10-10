@@ -32,8 +32,9 @@ const handler = (req, res) => {
 
 const handlerPost = (req, res) => {
   async function postUrl(originalUrl) {
+    console.log("originalUrl", originalUrl);
     const url = originalUrl.replace("/api-post?url=", "")
-
+    console.log("URL", url, "FINAL");
     try {
       const response = await axios.post(url, req.body);
       const contentType = response.headers.get("content-type");
@@ -67,7 +68,7 @@ app.use("/api", (req, res) => {
   handler(req, res);
 });
 
-app.post("/api-post", (req, res) => {
+app.use("/api-post", (req, res) => {
   handlerPost(req, res);
 });
 
