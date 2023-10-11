@@ -45,8 +45,11 @@ const handlerPost = (req, res) => {
     }
   }
   
-  if (req.query.url) {
-    postUrl(req.originalUrl);
+  const url = req.query.url;
+  const guest_session_id = req.query.guest_session_id;
+  if (url && guest_session_id) {
+
+    postUrl(`${url}&guest_session_id=`);
   } else {
     res.send("missing url parameter");
   }
@@ -57,15 +60,11 @@ const app = express();
 Middlewares(app);
 
 app.use("/api", (req, res) => {
-  if (req.method === "POST") {
-    //sconst url = req.originalUrl.substring(originalUrl.indexOf("https://api.themoviedb"));
-    res.json({ miUrl: req.originalUrl});
-    
+  if (req.method === "POST") {    
     //handlerPost(req, res)
+    res.json({url: req.url});
   } else {
-    res.json({ miUrl: req.query.url});
-
-//    handler(req, res);
+    handler(req, res);
   }
 });
 
