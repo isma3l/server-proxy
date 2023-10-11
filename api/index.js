@@ -63,7 +63,9 @@ app.use("/api", (req, res) => {
     
     //handlerPost(req, res)
   } else {
-    handler(req, res);
+    res.json({ miUrl: req.originalUrl});
+
+//    handler(req, res);
   }
 });
 
