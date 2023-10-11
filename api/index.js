@@ -67,7 +67,8 @@ app.use("/api", (req, res) => {
 });
 
 app.use("/api-post", (req, res) => {
-  handlerPost(req, res);
+  res.json({user: "pelusa"});
+  //handlerPost(req, res);
 });
 
 app.use('*', (_req, res) => {
