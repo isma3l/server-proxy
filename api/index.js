@@ -31,9 +31,7 @@ const handler = (req, res) => {
 }
 
 const handlerPost = (req, res) => {
-  async function postUrl(originalUrl) {
-    const url = originalUrl.substring(originalUrl.indexOf("https://api.themoviedb"));
-    
+  async function postUrl(url) {    
     try {
       const response = await axios.post(url, req.body);
       res.status = response.status;
@@ -45,11 +43,11 @@ const handlerPost = (req, res) => {
     }
   }
   
-  const url = req.query.url;
-  const guest_session_id = req.query.guest_session_id;
-  if (url && guest_session_id) {
+  const decodeURL = decodeURIComponent(req.url);
+  const url = decodeURL.replace("/?url=", "");
 
-    postUrl(`${url}&guest_session_id=`);
+  if (url) {
+    postUrl(url);
   } else {
     res.send("missing url parameter");
   }
@@ -61,9 +59,7 @@ Middlewares(app);
 
 app.use("/api", (req, res) => {
   if (req.method === "POST") {    
-    //handlerPost(req, res)
-    
-    res.json({decodeURI: decodeURI(req.url), decodeURIComponent: decodeURIComponent(req.url), url: req.url});
+    handlerPost(req, res)
   } else {
     handler(req, res);
   }
