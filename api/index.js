@@ -63,14 +63,18 @@ const app = express();
 Middlewares(app);
 
 app.use("/api", (req, res) => {
-  handler(req, res);
+  if (req.query.post) {
+    res.json({user: "pelusa 6575"});  
+  } else {
+    handler(req, res);
+  }
 });
 
-app.post("/api-post", (req, res) => {
+/* app.post("/api", (req, res) => {
   res.json({user: "pelusa 6575"});
   console.log("json", req.body);
   //handlerPost(req, res);
-});
+}); */
 
 app.use('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
