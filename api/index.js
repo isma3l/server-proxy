@@ -62,7 +62,8 @@ Middlewares(app);
 app.use("/api", (req, res) => {
   if (req.method === "POST") {    
     //handlerPost(req, res)
-    res.json({url: req.url});
+    
+    res.json({url: decodeURI(req.url)});
   } else {
     handler(req, res);
   }
