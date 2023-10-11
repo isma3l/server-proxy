@@ -35,7 +35,8 @@ const handlerPost = (req, res) => {
     const url = originalUrl.replace("/api?post=true&url=", "");
     //console.log("url", url); 
     try {
-      const response = await axios.post(url, req.body);
+      const url2 = "https://api.themoviedb.org/3/movie/565770/rating?guest_session_id=c5e8b5ed980bc915b5ab4e59b854774c&api_key=8f781d70654b5a6f2fa69770d1d115a3";
+      const response = await axios.post(url2, req.body);
       res.status = response.status;
       res.json(response.data);
 
