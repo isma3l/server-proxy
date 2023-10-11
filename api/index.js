@@ -33,9 +33,9 @@ const handler = (req, res) => {
 const handlerPost = (req, res) => {
   async function postUrl(originalUrl) {
     console.log("originalUrl", originalUrl);
-    //const url = originalUrl.replace("/api-post?url=", "")
-    const url = "https://api.themoviedb.org/3/movie/565770/rating?guest_session_id=c5e8b5ed980bc915b5ab4e59b854774c&api_key=8f781d70654b5a6f2fa69770d1d115a3";
-    console.log("URL", url, "FINAL");
+    const url = originalUrl.replace("/api?post=true&url=", "")
+    //const url = "https://api.themoviedb.org/3/movie/565770/rating?guest_session_id=c5e8b5ed980bc915b5ab4e59b854774c&api_key=8f781d70654b5a6f2fa69770d1d115a3";
+    
     try {
       const response = await axios.post(url, req.body, {
         headers: {
@@ -64,17 +64,11 @@ Middlewares(app);
 
 app.use("/api", (req, res) => {
   if (req.query.post) {
-    res.json({user: "pelusa 6575"});  
+    handlerPost(req, res)
   } else {
     handler(req, res);
   }
 });
-
-/* app.post("/api", (req, res) => {
-  res.json({user: "pelusa 6575"});
-  console.log("json", req.body);
-  //handlerPost(req, res);
-}); */
 
 app.use('*', (_req, res) => {
     res.sendFile(path.join(__dirname, '../public/index.html'));
