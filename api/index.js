@@ -33,19 +33,17 @@ const handler = (req, res) => {
 const handlerPost = (req, res) => {
   async function postUrl(originalUrl) {
     console.log("originalUrl", originalUrl);
-    const url = originalUrl.replace("/api-post?url=", "")
+    //const url = originalUrl.replace("/api-post?url=", "")
+    const url = "https://api.themoviedb.org/3/movie/565770/rating?guest_session_id=c5e8b5ed980bc915b5ab4e59b854774c&api_key=8f781d70654b5a6f2fa69770d1d115a3";
     console.log("URL", url, "FINAL");
     try {
-      const response = await axios.post(url, req.body);
-      const contentType = response.headers.get("content-type");
-      res.setHeader("content-type", contentType)
+      const response = await axios.post(url, req.body, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
       res.status = response.status;
-
-      if (contentType.includes("json")) {
-        res.json(response.data);
-      } else {
-        res.send(response.data);
-      }
+      res.json(response.data);
 
     } catch (error) {
       res.status = 500;
