@@ -57,7 +57,7 @@ const app = express();
 Middlewares(app);
 
 app.use("/api", (req, res) => {
-  if (req.query.post) {
+  if (req.method === "POST") {
     handlerPost(req, res)
   } else {
     handler(req, res);
