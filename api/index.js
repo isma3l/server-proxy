@@ -58,7 +58,10 @@ Middlewares(app);
 
 app.use("/api", (req, res) => {
   if (req.method === "POST") {
-    handlerPost(req, res)
+    //sconst url = req.originalUrl.substring(originalUrl.indexOf("https://api.themoviedb"));
+    res.json({ miUrl: req.originalUrl});
+    
+    //handlerPost(req, res)
   } else {
     handler(req, res);
   }
