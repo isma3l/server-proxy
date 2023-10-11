@@ -63,7 +63,7 @@ app.use("/api", (req, res) => {
   if (req.method === "POST") {    
     //handlerPost(req, res)
     
-    res.json({url: decodeURI(req.url)});
+    res.json({decodeURI: decodeURI(req.url), decodeURIComponent: decodeURIComponent(req.url), url: req.url});
   } else {
     handler(req, res);
   }
