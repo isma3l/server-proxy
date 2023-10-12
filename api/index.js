@@ -9,8 +9,8 @@ const handler = (req, res) => {
       const response = await axios.get(url);
       const contentType = response.headers.get("content-type");
       res.setHeader("content-type", contentType)
-      res.status = response.status;
-
+      res.status(response.status);
+      
       if (contentType.includes("json")) {
         res.json(response.data);
       } else {
@@ -18,7 +18,7 @@ const handler = (req, res) => {
       }
 
     } catch (error) {
-      res.status = 500;
+      res.status(error.response.status);
       res.json({ type: 'error', message: error.message });
     }
   }
@@ -34,11 +34,11 @@ const handlerPost = (req, res) => {
   async function postUrl(url) {    
     try {
       const response = await axios.post(url, req.body);
-      res.status = response.status;
+      res.status(response.status);
       res.json(response.data);
 
     } catch (error) {
-      res.status = 500;
+      res.status(error.response.status);
       res.json({ type: 'error', message: error.message });
     }
   }
