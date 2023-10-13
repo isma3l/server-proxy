@@ -39,7 +39,7 @@ const handlerPost = (req, res) => {
 
     } catch (error) {
       res.status(error.response.status);
-      res.json({ type: 'error', message: error.message, url, body: req.body });
+      res.json({ type: 'error', message: error.message, url, value: req.body.value, comment: req.body.comment });
     }
   }
   
