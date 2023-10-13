@@ -31,19 +31,14 @@ const handler = (req, res) => {
 }
 
 const handlerPost = (req, res) => {
-  console.log("body", req.body);
-  const value = req.body.value;
-  const comment = req.body.comment;
-
   async function postUrl(url) {    
     try {
       const response = await axios.post(url, req.body);
       res.status(response.status);
       res.json(response.data);
-
     } catch (error) {
       res.status(error.response.status);
-      res.json({ type: 'error', message: error.message, url, valor: value, comentario: comment, body: req.body });
+      res.json({ type: 'error', message: error.message });
     }
   }
   
