@@ -31,6 +31,10 @@ const handler = (req, res) => {
 }
 
 const handlerPost = (req, res) => {
+  console.log("body", req.body);
+  const value = req.body.value;
+  const comment = req.body.comment;
+
   async function postUrl(url) {    
     try {
       const response = await axios.post(url, req.body);
@@ -39,7 +43,7 @@ const handlerPost = (req, res) => {
 
     } catch (error) {
       res.status(error.response.status);
-      res.json({ type: 'error', message: error.message, url, value: req.body.value, comment: req.body.comment });
+      res.json({ type: 'error', message: error.message, url, valor: value, comentario: comment, body: req.body });
     }
   }
   
